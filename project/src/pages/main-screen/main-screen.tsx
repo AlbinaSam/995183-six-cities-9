@@ -1,5 +1,5 @@
-import Header from '../header/header';
-import PropertyCard from '../property-card/property-card';
+import Header from '../../components/header/header';
+import PropertyCard from '../../components/property-card/property-card';
 
 type MainScreenProps = {
   placesCount: number;
