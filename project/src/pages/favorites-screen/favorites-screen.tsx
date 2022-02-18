@@ -1,5 +1,5 @@
-import Header from '../header/header';
-import FavoritePropertyCard from '../favorite-property-card/favorite-property-card';
+import Header from '../../components/header/header';
+import FavoritePropertyCard from '../../components/favorite-property-card/favorite-property-card';
 
 function FavoritesScreen(): JSX.Element {
   return (
