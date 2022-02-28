@@ -1,11 +1,12 @@
 import Header from '../../components/header/header';
-import PropertyCard from '../../components/property-card/property-card';
+import PropertyCardsList from '../../components/property-cards-list/property-cards-list';
+import {Offers} from '../../types/offers';
 
 type MainScreenProps = {
-  placesCount: number;
+  offers: Offers;
 }
 
-function MainScreen({placesCount}: MainScreenProps): JSX.Element {
+function MainScreen({offers}: MainScreenProps): JSX.Element {
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -16,7 +17,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
+                <a className="locations__item-link tabs__item tabs__item--active" href="/">
                   <span>Paris</span>
                 </a>
               </li>
@@ -31,7 +32,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element {
                 </a>
               </li>
               <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="/">
+                <a className="locations__item-link tabs__item" href="/">
                   <span>Amsterdam</span>
                 </a>
               </li>
@@ -52,7 +53,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{placesCount} places to stay in Amsterdam</b>
+              <b className="places__found">{offers.length} places to stay in Amsterdam</b>
               <form className="places__sorting" action="#" method="get">
                 <span className="places__sorting-caption">Sort by</span>
                 <span className="places__sorting-type" tabIndex={0}>
@@ -69,11 +70,7 @@ function MainScreen({placesCount}: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PropertyCard />
-                <PropertyCard />
-                <PropertyCard />
-                <PropertyCard />
-                <PropertyCard />
+                <PropertyCardsList offers={offers}/>
               </div>
             </section>
             <div className="cities__right-section">

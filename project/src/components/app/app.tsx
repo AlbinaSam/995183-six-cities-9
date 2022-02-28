@@ -6,17 +6,20 @@ import PropertyScreen from '../../pages/property-screen/property-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
+import {Offers} from '../../types/offers';
+import {Reviews} from '../../types/reviews';
 
 type AppScreenProps = {
-  placesCount: number;
+  offers: Offers;
+  reviews: Reviews;
 }
 
-function App({ placesCount }: AppScreenProps): JSX.Element {
+function App({offers, reviews}: AppScreenProps): JSX.Element {
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Root}
-          element={<MainScreen placesCount={placesCount} />}
+          element={<MainScreen offers={offers}/>}
         >
         </Route>
         <Route path={AppRoute.Login}
@@ -24,13 +27,13 @@ function App({ placesCount }: AppScreenProps): JSX.Element {
         >
         </Route>
         <Route path={AppRoute.Property}
-          element={<PropertyScreen />}
+          element={<PropertyScreen offers={offers} reviews={reviews}/>}
         >
         </Route>
         <Route path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesScreen />
+              <FavoritesScreen offers={offers} />
             </PrivateRoute>
           }
         >
