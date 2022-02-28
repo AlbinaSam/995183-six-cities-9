@@ -1,7 +1,12 @@
 import Header from '../../components/header/header';
-import FavoritePropertyCard from '../../components/favorite-property-card/favorite-property-card';
+import FavoritePropertyCardsList from '../../components/favorite-property-cards-list/favorite-property-cards-list';
+import {Offers} from '../../types/offers';
 
-function FavoritesScreen(): JSX.Element {
+type FavoritesScreenProps = {
+  offers: Offers;
+}
+
+function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
   return (
     <div className="page">
       <Header />
@@ -19,8 +24,7 @@ function FavoritesScreen(): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <FavoritePropertyCard />
-                  <FavoritePropertyCard />
+                  <FavoritePropertyCardsList offers={offers} />
                 </div>
               </li>
 
@@ -33,7 +37,7 @@ function FavoritesScreen(): JSX.Element {
                   </div>
                 </div>
                 <div className="favorites__places">
-                  <FavoritePropertyCard />
+                  <FavoritePropertyCardsList offers={offers} />
                 </div>
               </li>
             </ul>
