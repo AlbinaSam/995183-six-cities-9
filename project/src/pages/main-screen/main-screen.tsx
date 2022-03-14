@@ -1,12 +1,21 @@
 import Header from '../../components/header/header';
 import PropertyCardsList from '../../components/property-cards-list/property-cards-list';
-import {Offers} from '../../types/offers';
+import Map from '../../components/map/map';
+import {Offer, City} from '../../types/offer';
+import {useState} from 'react';
+import {CITIES} from '../../consts';
 
 type MainScreenProps = {
-  offers: Offers;
+  offers: Offer[];
 }
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
+  const [activeOffer, setActiveOffer] = useState<number | null>(null);
+
+  const [currentCity] = useState<City>(offers[0].city);
+
+  const handleActiveOfferChoose = (id: number | null) => setActiveOffer(id);
+
   return (
     <div className="page page--gray page--main">
       <Header />
@@ -16,36 +25,13 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
         <div className="tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active" href="/">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="/">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {CITIES.map((city) => (
+                <li key={city} className="locations__item">
+                  <a className={`locations__item-link ${city === currentCity.name ? 'tabs__item tabs__item--active' : ''}`} href="/">
+                    <span>{city}</span>
+                  </a>
+                </li>
+              ))}
             </ul>
           </section>
         </div>
@@ -70,11 +56,11 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PropertyCardsList offers={offers}/>
+                <PropertyCardsList offers={offers} onActiveChoose={handleActiveOfferChoose}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map city={currentCity} offers={offers} activeOffer={activeOffer} />
             </div>
           </div>
         </div>

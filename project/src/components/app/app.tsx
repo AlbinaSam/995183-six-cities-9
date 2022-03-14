@@ -6,11 +6,11 @@ import PropertyScreen from '../../pages/property-screen/property-screen';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
-import {Offers} from '../../types/offers';
+import {Offer} from '../../types/offer';
 import {Reviews} from '../../types/reviews';
 
 type AppScreenProps = {
-  offers: Offers;
+  offers: Offer[];
   reviews: Reviews;
 }
 

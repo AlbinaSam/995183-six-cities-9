@@ -1,9 +1,9 @@
 import Header from '../../components/header/header';
 import FavoritePropertyCardsList from '../../components/favorite-property-cards-list/favorite-property-cards-list';
-import {Offers} from '../../types/offers';
+import {Offer} from '../../types/offer';
 
 type FavoritesScreenProps = {
-  offers: Offers;
+  offers: Offer[];
 }
 
 function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {

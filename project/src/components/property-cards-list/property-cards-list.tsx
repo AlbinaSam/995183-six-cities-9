@@ -1,28 +1,16 @@
-import {useState, MouseEvent} from 'react';
 import PropertyCard from '../property-card/property-card';
-import {Offers} from '../../types/offers';
+import {Offer} from '../../types/offer';
 
 type PropertyCardsListProps = {
-  offers: Offers;
+  offers: Offer[];
+  onActiveChoose : (id: number | null) => void;
 }
 
-function PropertyCardsList({offers}: PropertyCardsListProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<string | null>(null);
-
-  const handleActiveChoose = ({target}: MouseEvent<HTMLElement>): void => {
-
-    const newActive = (target as HTMLElement).closest('.cities__place-card ')?.getAttribute('id') as string;
-
-    if (newActive === activeOffer) {
-      return;
-    }
-
-    setActiveOffer(newActive);
-  };
+function PropertyCardsList({offers, onActiveChoose }: PropertyCardsListProps): JSX.Element {
 
   return (
     <>
-      {offers.map((offer) => <PropertyCard onActiveChoose ={handleActiveChoose} key={offer.id} id={offer.id.toString()} offer={offer}/>)}
+      {offers.map((offer) => <PropertyCard onActiveChoose={onActiveChoose} key={offer.id} id={offer.id} offer={offer}/>)}
     </>
   );
 }

@@ -1,8 +1,8 @@
-import {Offers} from '../../types/offers';
+import {Offer} from '../../types/offer';
 import FavoritePropertyCard from '../favorite-property-card/favorite-property-card';
 
 type FavoritePropertyCardsProps = {
-  offers: Offers;
+  offers: Offer[];
 }
 
 function FavoritePropertyCardsList({offers}: FavoritePropertyCardsProps): JSX.Element {

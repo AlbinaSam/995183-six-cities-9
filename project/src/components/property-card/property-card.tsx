@@ -1,17 +1,17 @@
 import {Link} from 'react-router-dom';
-import {Offer} from '../../types/offers';
+import {Offer} from '../../types/offer';
 import {countRatingPercent} from '../../utils';
-import {MouseEvent} from 'react';
 
 type PropertyCardProps = {
   offer: Offer;
-  id: string;
-  onActiveChoose: ({target}: MouseEvent<HTMLElement>) => void;
+  id: number;
+  onActiveChoose: (id: number | null) => void;
 }
 
 function PropertyCard({onActiveChoose, id, offer}: PropertyCardProps) {
+
   return (
-    <article onMouseOver={onActiveChoose} id={id} className="cities__place-card place-card">
+    <article onMouseEnter={() => onActiveChoose(id)} onMouseLeave={() => onActiveChoose(null)} id={id.toString()} className="cities__place-card place-card">
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div className="cities__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
