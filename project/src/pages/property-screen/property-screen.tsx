@@ -1,6 +1,6 @@
 import Header from '../../components/header/header';
 import ReviewForm from '../../components/review-form/review-form';
-import { Offers, Offer } from '../../types/offers';
+import { Offer } from '../../types/offer';
 import { Reviews } from '../../types/reviews';
 import { MAX_PHOTOS_AMOUNT } from '../../consts';
 import { countRatingPercent } from '../../utils';
@@ -8,7 +8,7 @@ import dayjs from 'dayjs';
 import {useParams} from 'react-router-dom';
 
 type PropertyScreenProps = {
-  offers: Offers;
+  offers: Offer[];
   reviews: Reviews;
 }
 
@@ -16,9 +16,16 @@ function getMaxPhotosAmount(offer: Offer): number {
   return Math.min(offer.images.length, MAX_PHOTOS_AMOUNT);
 }
 
-function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
+function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element | null {
   const params = useParams();
   const offer = offers.find((currentOffer) => currentOffer.id.toString() === params.id);
+
+  if (!offer) {
+    return null;
+  }
+
+  const {images, type, isPremium, title, rating, bedrooms, maxAdults, price, goods, host, description} = offer;
+
   return (
     <div className="page">
       <Header />
@@ -26,18 +33,18 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {offer && offer.images.slice(0, getMaxPhotosAmount(offer)).map((image) => (
-                <div key={offer.id} className="property__image-wrapper">
-                  <img className="property__image" src={image} alt={offer.type[0].toUpperCase() + offer.type.slice(1)} />
+              {images.slice(0, getMaxPhotosAmount(offer)).map((image) => (
+                <div key={image} className="property__image-wrapper">
+                  <img className="property__image" src={image} alt={type[0].toUpperCase() + type.slice(1)} />
                 </div>
               ))}
             </div>
           </div>
           <div className="property__container container">
             <div className="property__wrapper">
-              {offer && offer.isPremium && <div className="property__mark"><span>Premium</span></div>}
+              {isPremium && <div className="property__mark"><span>Premium</span></div>}
               <div className="property__name-wrapper">
-                <h1 className="property__name">{offer && offer.title}</h1>
+                <h1 className="property__name">{title}</h1>
                 <button className="property__bookmark-button button" type="button">
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
@@ -47,46 +54,46 @@ function PropertyScreen({ offers, reviews }: PropertyScreenProps): JSX.Element {
               </div>
               <div className="property__rating rating">
                 <div className="property__stars rating__stars">
-                  <span style={{ width: `${countRatingPercent(offer && offer.rating)}%` }}></span>
+                  <span style={{ width: `${countRatingPercent(rating)}%` }}></span>
                   <span className="visually-hidden">Rating</span>
                 </div>
-                <span className="property__rating-value rating__value">{offer && offer.rating}</span>
+                <span className="property__rating-value rating__value">{rating}</span>
               </div>
               <ul className="property__features">
                 <li className="property__feature property__feature--entire">
-                  {offer && offer.type[0].toUpperCase() + offer.type.slice(1)}
+                  {type[0].toUpperCase() + type.slice(1)}
                 </li>
                 <li className="property__feature property__feature--bedrooms">
-                  {offer && offer.bedrooms} Bedrooms
+                  {bedrooms} Bedrooms
                 </li>
                 <li className="property__feature property__feature--adults">
-                  Max {offer && offer.maxAdults} adults
+                  Max {maxAdults} adults
                 </li>
               </ul>
               <div className="property__price">
-                <b className="property__price-value">&euro;{offer && offer.price}</b>
+                <b className="property__price-value">&euro;{price}</b>
                 <span className="property__price-text">&nbsp;night</span>
               </div>
               <div className="property__inside">
                 <h2 className="property__inside-title">What&apos;s inside</h2>
                 <ul className="property__inside-list">
-                  {offer && offer.goods.map((good) => <li key={offer.id} className="property__inside-item">{good}</li>)}
+                  {goods.map((good) => <li key={good} className="property__inside-item">{good}</li>)}
                 </ul>
               </div>
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className={`property__avatar-wrapper ${offer && offer.host.isPro ? 'property__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                  <div className={`property__avatar-wrapper ${host.isPro ? 'property__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
                     <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
-                    {offer && offer.host.name}
+                    {host.name}
                   </span>
-                  {offer && offer.host.isPro && <span className="property__user-status">Pro</span>}
+                  {host.isPro && <span className="property__user-status">Pro</span>}
                 </div>
                 <div className="property__description">
                   <p className="property__text">
-                    {offer && offer.description}
+                    {description}
                   </p>
                 </div>
               </div>
