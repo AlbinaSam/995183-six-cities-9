@@ -1,4 +1,4 @@
-import { useState, ChangeEvent } from 'react';
+import React, { useState, ChangeEvent} from 'react';
 import { MIN_CHARACTERS_NUMBER, REVIEW_TITLES } from '../../consts';
 
 function ReviewForm(): JSX.Element {
@@ -10,7 +10,7 @@ function ReviewForm(): JSX.Element {
       <div className="reviews__rating-form form__rating">
 
         {REVIEW_TITLES.map((title, index) => (
-          <>
+          <React.Fragment key={title}>
             <input className="form__rating-input visually-hidden" name="rating" value={index + 1} id={`${index + 1}-stars`} type="radio" checked={rating === (index + 1).toString()} onChange={({ target }: ChangeEvent<HTMLInputElement>) => {
               setRating(target.value);
             }}
@@ -20,7 +20,7 @@ function ReviewForm(): JSX.Element {
                 <use xlinkHref="#icon-star"></use>
               </svg>
             </label>
-          </>)).reverse()}
+          </React.Fragment>)).reverse()}
 
       </div>
       <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={comment} onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {

@@ -3,18 +3,18 @@ import PropertyCardsList from '../../components/property-cards-list/property-car
 import Map from '../../components/map/map';
 import {Offer, City} from '../../types/offer';
 import {useState} from 'react';
-import {CITIES} from '../../consts';
+import {CITIES, propertyCardClasses, MapClasses} from '../../consts';
 
 type MainScreenProps = {
   offers: Offer[];
 }
 
 function MainScreen({offers}: MainScreenProps): JSX.Element {
-  const [activeOffer, setActiveOffer] = useState<number | null>(null);
+  const [activeOffer, setActiveOffer] = useState<Offer | null>(null);
 
   const [currentCity] = useState<City>(offers[0].city);
 
-  const handleActiveOfferChoose = (id: number | null) => setActiveOffer(id);
+  const handleActiveOfferChoose = (offer: Offer | null) => setActiveOffer(offer);
 
   return (
     <div className="page page--gray page--main">
@@ -56,11 +56,11 @@ function MainScreen({offers}: MainScreenProps): JSX.Element {
                 </ul>
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <PropertyCardsList offers={offers} onActiveChoose={handleActiveOfferChoose}/>
+                <PropertyCardsList neededClasses={propertyCardClasses.mainPage} offers={offers} onActiveChoose={handleActiveOfferChoose}/>
               </div>
             </section>
             <div className="cities__right-section">
-              <Map city={currentCity} offers={offers} activeOffer={activeOffer} />
+              <Map mapClassName={MapClasses.MainPage} city={currentCity} points={offers} activeOffer={activeOffer} />
             </div>
           </div>
         </div>
