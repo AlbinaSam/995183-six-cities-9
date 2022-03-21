@@ -1,17 +1,16 @@
-/* eslint-disable no-console */
 import Header from '../../components/header/header';
 import ReviewForm from '../../components/review-form/review-form';
 import ReviewsList from '../../components/reviews-list/reviews-list';
 import PropertyCardsList from '../../components/property-cards-list/property-cards-list';
+import Map from '../../components/map/map';
 import { Offer } from '../../types/offer';
 import { Review } from '../../types/reviews';
 import { MAX_PHOTOS_AMOUNT, propertyCardClasses, MapClasses } from '../../consts';
 import { countRatingPercent } from '../../utils';
 import {useParams} from 'react-router-dom';
-import Map from '../../components/map/map';
+import {useAppSelector} from '../../hooks/index';
 
 type PropertyScreenProps = {
-  offers: Offer[];
   reviews: Review[];
   nearbyOffers: Offer[];
 }
@@ -20,15 +19,21 @@ function getMaxPhotosAmount(offer: Offer): number {
   return Math.min(offer.images.length, MAX_PHOTOS_AMOUNT);
 }
 
-function PropertyScreen({ offers, reviews, nearbyOffers }: PropertyScreenProps): JSX.Element | null {
+function PropertyScreen({ reviews, nearbyOffers }: PropertyScreenProps): JSX.Element | null {
+
+  const currentCity = useAppSelector((state) => state.city);
+
+  const offers: Offer[] = useAppSelector((state) => state.offers);
+
   const params = useParams();
+
   const offer = offers.find((currentOffer) => currentOffer.id.toString() === params.id);
 
   if (!offer) {
     return null;
   }
 
-  const {city, images, type, isPremium, title, rating, bedrooms, maxAdults, price, goods, host, description} = offer;
+  const {images, type, isPremium, title, rating, bedrooms, maxAdults, price, goods, host, description} = offer;
 
   const mapStyle = {width: '1144px', margin: '0 auto 50px'};
 
@@ -112,13 +117,13 @@ function PropertyScreen({ offers, reviews, nearbyOffers }: PropertyScreenProps):
               </section>
             </div>
           </div>
-          <Map mapClassName={MapClasses.PropertyPage} mapStyle={mapStyle} city={city} points={nearbyOffers} activeOffer={offer}></Map>
+          <Map className={MapClasses.PropertyPage} city={currentCity} points={nearbyOffers} activeOffer={offer} mapStyle={mapStyle}></Map>
         </section>
         <div className="container">
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              <PropertyCardsList neededClasses={propertyCardClasses.propertyPage} offers={nearbyOffers} onActiveChoose={()=> null}/>
+              <PropertyCardsList className={propertyCardClasses.propertyPage} offers={nearbyOffers} onActiveChoose={()=> null}/>
             </div>
           </section>
         </div>
