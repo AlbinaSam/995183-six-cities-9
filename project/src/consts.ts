@@ -11,6 +11,13 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN'
 }
 
+export const SortingOptionsValues = {
+  Popular: 'Popular',
+  PriceUp: 'Price: low to high',
+  PriceDown: 'Price: high to low',
+  TopRated: 'Top rated first',
+};
+
 export const MAX_RATING = 5;
 
 export const MAX_PERCENT_RATING = 100;
