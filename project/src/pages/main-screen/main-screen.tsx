@@ -56,7 +56,7 @@ function MainScreen(): JSX.Element {
                 </div>
               </section>
               <div className="cities__right-section">
-                <Map className={MapClasses.MainPage} city={city} points={filteredOffers} activeOffer={activeOffer} />
+                <Map key={city} className={MapClasses.MainPage} city={city} points={filteredOffers} activeOffer={activeOffer} />
               </div>
             </div> : <NoPlacesAvailable></NoPlacesAvailable>}
         </div>
