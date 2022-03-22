@@ -3,18 +3,18 @@ import {Offer} from '../../types/offer';
 import {countRatingPercent} from '../../utils';
 
 type PropertyCardProps = {
-  neededClasses: {placeCardClass: string, imgWrapperClass: string};
+  className: {placeCardClass: string, imgWrapperClass: string};
   offer: Offer;
   id: number;
   onActiveChoose: (offer: Offer | null) => void;
 }
 
-function PropertyCard({neededClasses, onActiveChoose, id, offer}: PropertyCardProps) {
+function PropertyCard({className, onActiveChoose, id, offer}: PropertyCardProps) {
 
   return (
-    <article onMouseEnter={() => onActiveChoose(offer)} onMouseLeave={() => onActiveChoose(null)} id={id.toString()} className={`${neededClasses.placeCardClass} place-card`}>
+    <article onMouseEnter={() => onActiveChoose(offer)} onMouseLeave={() => onActiveChoose(null)} id={id.toString()} className={`${className.placeCardClass} place-card`}>
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
-      <div className={`${neededClasses.imgWrapperClass} place-card__image-wrapper`}>
+      <div className={`${className.imgWrapperClass} place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={offer.previewImage} width="260" height="200" alt="Place" />
         </Link>

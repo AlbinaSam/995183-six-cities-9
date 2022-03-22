@@ -1,51 +1,25 @@
 import Header from '../../components/header/header';
-import FavoritePropertyCardsList from '../../components/favorite-property-cards-list/favorite-property-cards-list';
-import {Offer} from '../../types/offer';
+import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
+import FavoritesList from '../../components/favorites-list/favorites-list';
+import { useAppSelector } from '../../hooks/index';
 
-type FavoritesScreenProps = {
-  offers: Offer[];
-}
+function FavoritesScreen(): JSX.Element {
+  const offers = useAppSelector((state) => state.offers);
 
-function FavoritesScreen({offers}: FavoritesScreenProps): JSX.Element {
   return (
-    <div className="page">
+    <div className={`page ${offers.length > 0 ? '' : 'page--favorites-empty'}`}>
       <Header />
-      <main className="page__main page__main--favorites">
-        <div className="page__favorites-container container">
-          <section className="favorites">
-            <h1 className="favorites__title">Saved listing</h1>
-            <ul className="favorites__list">
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="/">
-                      <span>Amsterdam</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  <FavoritePropertyCardsList offers={offers} />
-                </div>
-              </li>
-
-              <li className="favorites__locations-items">
-                <div className="favorites__locations locations locations--current">
-                  <div className="locations__item">
-                    <a className="locations__item-link" href="/">
-                      <span>Cologne</span>
-                    </a>
-                  </div>
-                </div>
-                <div className="favorites__places">
-                  <FavoritePropertyCardsList offers={offers} />
-                </div>
-              </li>
-            </ul>
-          </section>
-        </div>
-      </main>
-      <footer className="footer container">
-        <a className="footer__logo-link" href="main.html">
+      {offers.length > 0 ?
+        <main className="page__main page__main--favorites">
+          <div className="page__favorites-container container">
+            <section className="favorites">
+              <h1 className="favorites__title">Saved listing</h1>
+              <FavoritesList></FavoritesList>
+            </section>
+          </div>
+        </main> : <FavoritesEmpty></FavoritesEmpty>}
+      <footer className={`footer ${offers.length > 0 ? 'container' : ''}`}>
+        <a className="footer__logo-link" href="./">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </a>
       </footer>

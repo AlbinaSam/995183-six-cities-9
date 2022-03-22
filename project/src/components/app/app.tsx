@@ -8,19 +8,25 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import PrivateRoute from '../private-route/private-route';
 import {Offer} from '../../types/offer';
 import {Review} from '../../types/reviews';
+import {useAppDispatch} from '../../hooks/index';
+import {offers} from '../../mocks/offers';
+import {addOffers} from '../../store/action';
 
 type AppScreenProps = {
-  offers: Offer[];
   reviews: Review[];
   nearbyOffers: Offer[];
 }
 
-function App({offers, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
+function App({reviews, nearbyOffers}: AppScreenProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+  dispatch(addOffers(offers));
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path={AppRoute.Root}
-          element={<MainScreen offers={offers}/>}
+          element={<MainScreen/>}
         >
         </Route>
         <Route path={AppRoute.Login}
@@ -28,13 +34,13 @@ function App({offers, reviews, nearbyOffers}: AppScreenProps): JSX.Element {
         >
         </Route>
         <Route path={AppRoute.Property}
-          element={<PropertyScreen offers={offers} reviews={reviews} nearbyOffers={nearbyOffers}/>}
+          element={<PropertyScreen reviews={reviews} nearbyOffers={nearbyOffers}/>}
         >
         </Route>
         <Route path={AppRoute.Favorites}
           element={
             <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesScreen offers={offers} />
+              <FavoritesScreen/>
             </PrivateRoute>
           }
         >
