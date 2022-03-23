@@ -5,6 +5,9 @@ import App from './components/app/app';
 import {store} from './store';
 import {reviews} from './mocks/reviews';
 import {nearbyOffers} from './mocks/nearby-offers';
+import { fetchOffersAction } from './store/api-actions';
+
+store.dispatch(fetchOffersAction());
 
 ReactDOM.render(
   <React.StrictMode>

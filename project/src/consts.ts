@@ -49,3 +49,8 @@ export const propertyCardClasses = {
     imgWrapperClass: 'near-places__image-wrapper',
   },
 };
+
+export enum APIRoute {
+  Offers = '/hotels',
+  Favorite = '/favorite',
+}

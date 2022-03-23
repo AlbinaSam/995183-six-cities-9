@@ -2,9 +2,14 @@ import Header from '../../components/header/header';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import FavoritesList from '../../components/favorites-list/favorites-list';
 import { useAppSelector } from '../../hooks/index';
+import {store} from '../../store/index';
+import {fetchFavoriteOffersAction} from '../../store/api-actions';
 
 function FavoritesScreen(): JSX.Element {
-  const offers = useAppSelector((state) => state.offers);
+
+  store.dispatch(fetchFavoriteOffersAction());
+
+  const offers = useAppSelector((state) => state.favoriteOffers);
 
   return (
     <div className={`page ${offers.length > 0 ? '' : 'page--favorites-empty'}`}>
