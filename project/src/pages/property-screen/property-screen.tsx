@@ -21,8 +21,6 @@ function getMaxPhotosAmount(offer: Offer): number {
 
 function PropertyScreen({ reviews, nearbyOffers }: PropertyScreenProps): JSX.Element | null {
 
-  const currentCity = useAppSelector((state) => state.city);
-
   const offers: Offer[] = useAppSelector((state) => state.offers);
 
   const params = useParams();
@@ -117,7 +115,7 @@ function PropertyScreen({ reviews, nearbyOffers }: PropertyScreenProps): JSX.Ele
               </section>
             </div>
           </div>
-          <Map className={MapClasses.PropertyPage} city={currentCity} points={nearbyOffers} activeOffer={offer} mapStyle={mapStyle}></Map>
+          <Map className={MapClasses.PropertyPage} city={offer.city.name} points={nearbyOffers} activeOffer={offer} mapStyle={mapStyle}></Map>
         </section>
         <div className="container">
           <section className="near-places places">
