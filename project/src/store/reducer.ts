@@ -1,5 +1,5 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, loadOffers, loadFavotiteOffers} from './action';
+import {changeCity, loadOffers, loadFavotiteOffers, requireAuthorization, setUserEmail, setUserAvatarUrl} from './action';
 import {Offer} from '../types/offer';
 import {AuthorizationStatus} from '../consts';
 
@@ -9,6 +9,8 @@ type InitialState = {
   authorizationStatus: AuthorizationStatus;
   isDataLoaded: boolean;
   favoriteOffers: Offer[];
+  userEmail: string;
+  avatarUrl: string;
 }
 
 const initialState: InitialState = {
@@ -17,6 +19,8 @@ const initialState: InitialState = {
   authorizationStatus: AuthorizationStatus.Unknown,
   isDataLoaded: false,
   favoriteOffers: [],
+  userEmail: '',
+  avatarUrl: '',
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -30,5 +34,14 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(loadFavotiteOffers, (state, action) => {
       state.favoriteOffers = action.payload;
+    })
+    .addCase(requireAuthorization, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setUserEmail, (state, action) => {
+      state.userEmail = action.payload;
+    })
+    .addCase(setUserAvatarUrl, (state, action) => {
+      state.avatarUrl = action.payload;
     });
 });
