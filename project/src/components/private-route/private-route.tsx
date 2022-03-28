@@ -3,12 +3,13 @@ import {AppRoute} from '../../consts';
 import {AuthorizationStatus} from '../../consts';
 
 type PrivateRouteProps = {
+  authorizationStatus: AuthorizationStatus,
   children: JSX.Element,
-  authorizationStatus: AuthorizationStatus
 }
 
 function PrivateRoute(props: PrivateRouteProps): JSX.Element {
   const {authorizationStatus, children} = props;
+
   return (
     authorizationStatus === AuthorizationStatus.Auth
       ? children

@@ -2,7 +2,7 @@ export enum AppRoute {
   Root = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Property = '/offer/:id'
+  Property = '/offer/:id',
 }
 
 export enum AuthorizationStatus {
@@ -53,4 +53,13 @@ export const propertyCardClasses = {
 export enum APIRoute {
   Offers = '/hotels',
   Favorite = '/favorite',
+  Login = '/login',
+  Logout = '/logout',
+  Reviews = '/comments',
+}
+
+export enum HTTP_CODE {
+  BAD_REQUEST = 400,
+  UNAUTHORIZED = 401,
+  NOT_FOUND = 404,
 }

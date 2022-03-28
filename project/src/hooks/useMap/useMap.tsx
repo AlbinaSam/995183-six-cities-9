@@ -32,7 +32,7 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: string): Map
       setMap(instance);
     }
 
-  }, [mapRef, map, city]);
+  }, [mapRef, map, city, currentCity.location.latitude, currentCity.location.longitude, currentCity.location.zoom]);
 
   return map;
 

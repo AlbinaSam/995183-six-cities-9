@@ -1,13 +1,17 @@
 import Header from '../../components/header/header';
 import FavoritesEmpty from '../../components/favorites-empty/favorites-empty';
 import FavoritesList from '../../components/favorites-list/favorites-list';
-import { useAppSelector } from '../../hooks/index';
-import {store} from '../../store/index';
+import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import {fetchFavoriteOffersAction} from '../../store/api-actions';
+import {useEffect} from 'react';
 
 function FavoritesScreen(): JSX.Element {
 
-  store.dispatch(fetchFavoriteOffersAction());
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(fetchFavoriteOffersAction());
+  }, [dispatch]);
 
   const offers = useAppSelector((state) => state.favoriteOffers);
 
