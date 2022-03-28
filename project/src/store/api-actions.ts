@@ -1,11 +1,12 @@
-/* eslint-disable no-console */
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { api, store } from '../store/index';
 import { APIRoute, AuthorizationStatus } from '../consts';
-import { loadOffers, loadFavotiteOffers, requireAuthorization, redirectToRoute } from './action';
+import { loadOffers, loadFavotiteOffers, requireAuthorization, redirectToRoute, setReviews } from './action';
 import {Offer} from '../types/offer';
+import {Review} from '../types/reviews';
 import { AuthData } from '../types/auth-data';
 import { UserData } from '../types/user-data';
+import { NewReviewData } from '../types/new-review-data';
 import {saveToken, removeToken} from '../services/token';
 import {saveUserEmail, removeUserEmail} from '../services/user-email';
 import {saveUserAvatarUrl, removeUserAvatarUrl} from '../services/user-avatar-url';
@@ -74,6 +75,30 @@ export const logoutAction = createAsyncThunk(
       removeUserEmail();
       removeUserAvatarUrl();
       store.dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
+    } catch (error) {
+      errorHandler(error);
+    }
+  },
+);
+
+export const fetchReviewsAction = createAsyncThunk(
+  'fetchReviews',
+  async (offerId : string | undefined) => {
+    try {
+      const {data} = await api.get<Review[]>(`${APIRoute.Reviews}/${offerId}`);
+      store.dispatch(setReviews(data));
+    } catch (error) {
+      errorHandler(error);
+    }
+  },
+);
+
+export const addReviewAction = createAsyncThunk(
+  'addReview',
+  async ({comment, rating, offerId}: NewReviewData) => {
+    try {
+      const {data} = await api.post<Review[]>(`${APIRoute.Reviews}/${offerId}`, {comment, rating});
+      store.dispatch(setReviews(data));
     } catch (error) {
       errorHandler(error);
     }

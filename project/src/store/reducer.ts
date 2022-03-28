@@ -1,6 +1,7 @@
 import {createReducer} from '@reduxjs/toolkit';
-import {changeCity, loadOffers, loadFavotiteOffers, requireAuthorization, setUserEmail, setUserAvatarUrl} from './action';
+import {changeCity, loadOffers, loadFavotiteOffers, requireAuthorization, setUserEmail, setUserAvatarUrl, setReviews} from './action';
 import {Offer} from '../types/offer';
+import { Review } from '../types/reviews';
 import {AuthorizationStatus} from '../consts';
 
 type InitialState = {
@@ -11,6 +12,7 @@ type InitialState = {
   favoriteOffers: Offer[];
   userEmail: string;
   avatarUrl: string;
+  reviews: Review[];
 }
 
 const initialState: InitialState = {
@@ -21,6 +23,7 @@ const initialState: InitialState = {
   favoriteOffers: [],
   userEmail: '',
   avatarUrl: '',
+  reviews: [],
 };
 
 export const reducer = createReducer(initialState, (builder) => {
@@ -43,5 +46,8 @@ export const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setUserAvatarUrl, (state, action) => {
       state.avatarUrl = action.payload;
+    })
+    .addCase(setReviews, (state, action) => {
+      state.reviews = action.payload;
     });
 });

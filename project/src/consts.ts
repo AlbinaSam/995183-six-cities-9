@@ -2,7 +2,7 @@ export enum AppRoute {
   Root = '/',
   Login = '/login',
   Favorites = '/favorites',
-  Property = '/offer/:id'
+  Property = '/offer/:id',
 }
 
 export enum AuthorizationStatus {
@@ -55,6 +55,7 @@ export enum APIRoute {
   Favorite = '/favorite',
   Login = '/login',
   Logout = '/logout',
+  Reviews = '/comments',
 }
 
 export enum HTTP_CODE {

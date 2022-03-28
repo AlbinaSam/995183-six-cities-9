@@ -13,3 +13,5 @@ export const setUserEmail = createAction('addUserEmail', (value) => ({payload: v
 export const setUserAvatarUrl = createAction('addUserAvatarUrl', (value) => ({payload: value}));
 
 export const redirectToRoute = createAction('redirectToRoute', (value) => ({payload: value}));
+
+export const setReviews = createAction('setReview', (value) => ({payload: value}));

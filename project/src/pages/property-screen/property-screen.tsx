@@ -4,28 +4,64 @@ import ReviewsList from '../../components/reviews-list/reviews-list';
 import PropertyCardsList from '../../components/property-cards-list/property-cards-list';
 import Map from '../../components/map/map';
 import { Offer } from '../../types/offer';
-import { Review } from '../../types/reviews';
-import { MAX_PHOTOS_AMOUNT, propertyCardClasses, MapClasses } from '../../consts';
+import { MAX_PHOTOS_AMOUNT, propertyCardClasses, MapClasses, APIRoute, AuthorizationStatus } from '../../consts';
 import { countRatingPercent } from '../../utils';
 import {useParams} from 'react-router-dom';
-import {useAppSelector} from '../../hooks/index';
-
-type PropertyScreenProps = {
-  reviews: Review[];
-  nearbyOffers: Offer[];
-}
+import {useEffect, useState} from 'react';
+import {useAppSelector, useAppDispatch } from '../../hooks/index';
+import {api} from '../../store/';
+import { errorHandler } from '../../services/error-handler';
+import { fetchReviewsAction } from '../../store/api-actions';
 
 function getMaxPhotosAmount(offer: Offer): number {
   return Math.min(offer.images.length, MAX_PHOTOS_AMOUNT);
 }
 
-function PropertyScreen({ reviews, nearbyOffers }: PropertyScreenProps): JSX.Element | null {
-
-  const offers: Offer[] = useAppSelector((state) => state.offers);
+function PropertyScreen(): JSX.Element | null {
 
   const params = useParams();
 
-  const offer = offers.find((currentOffer) => currentOffer.id.toString() === params.id);
+  const dispatch = useAppDispatch();
+
+  const [offer, setOffer] = useState<Offer | null>(null);
+
+  const [nearbyOffers, setNearbyOffers] = useState<Offer[]>([]);
+
+  const {authorizationStatus, reviews} = useAppSelector((state) => state);
+
+  useEffect(() => {
+    const fetchOffer = async() => {
+      try {
+        const {data} = await api.get<Offer>(`${APIRoute.Offers}/${params.id}`);
+        setOffer(data);
+      } catch (error) {
+        errorHandler(error);
+        //направить на NotFoundScreen
+      }
+    };
+
+    fetchOffer();
+  }, [params.id]);
+
+
+  useEffect(() => {
+    dispatch(fetchReviewsAction(params.id));
+  }, [dispatch, params.id]);
+
+
+  useEffect(() => {
+    const fetchNearbyOffers = async () => {
+      try {
+        const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${params.id}/nearby`);
+        setNearbyOffers(data);
+      } catch (error) {
+        errorHandler(error);
+      }
+    };
+
+    fetchNearbyOffers();
+  }, [params.id]);
+
 
   if (!offer) {
     return null;
@@ -111,7 +147,8 @@ function PropertyScreen({ reviews, nearbyOffers }: PropertyScreenProps): JSX.Ele
                 {reviews.length > 0 ?
                   <ReviewsList reviews={reviews}></ReviewsList>
                   : ''}
-                <ReviewForm />
+                {authorizationStatus === AuthorizationStatus.Auth ?
+                  <ReviewForm /> : ''}
               </section>
             </div>
           </div>

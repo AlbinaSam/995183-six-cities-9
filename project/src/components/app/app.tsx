@@ -7,28 +7,21 @@ import FavoritesScreen from '../../pages/favorites-screen/favorites-screen';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen';
 import LoadingScreen from '../../pages/loading-screen/loading-screen';
 import PrivateRoute from '../private-route/private-route';
-import {Offer} from '../../types/offer';
-import {Review} from '../../types/reviews';
 import {useAppSelector, useAppDispatch} from '../../hooks/index';
 import {useEffect} from 'react';
 import { fetchOffersAction, checkAuthStatusAction } from '../../store/api-actions';
 import browserHistory from '../../browser-history';
 import HistoryRouter from '../history-router/history-router';
 
-type AppScreenProps = {
-  reviews: Review[];
-  nearbyOffers: Offer[];
-}
-
-function App({reviews, nearbyOffers}: AppScreenProps): JSX.Element {
+function App(): JSX.Element {
 
   const dispatch = useAppDispatch();
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(fetchOffersAction());
   }, [dispatch]);
 
-  useEffect(()=> {
+  useEffect(() => {
     dispatch(checkAuthStatusAction());
   }, [dispatch]);
 
@@ -52,7 +45,7 @@ function App({reviews, nearbyOffers}: AppScreenProps): JSX.Element {
         >
         </Route>
         <Route path={AppRoute.Property}
-          element={<PropertyScreen reviews={reviews} nearbyOffers={nearbyOffers}/>}
+          element={<PropertyScreen/>}
         >
         </Route>
         <Route path={AppRoute.Favorites}

@@ -1,7 +1,7 @@
 import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
 import { getToken } from './token';
 
-const BASE_URL = 'https://9.react.pages.academy/six-cities';
+export const BASE_URL = 'https://9.react.pages.academy/six-cities';
 
 const REQUEST_TIMEOUT = 5000;
 
