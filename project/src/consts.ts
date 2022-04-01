@@ -63,3 +63,15 @@ export enum HTTP_CODE {
   UNAUTHORIZED = 401,
   NOT_FOUND = 404,
 }
+
+export enum NameSpace {
+  User = 'USER',
+  Data = 'DATA',
+  AppUsing = 'APP_USING'
+}
+
+export enum StorageKeyName {
+  AUTH_TOKEN_KEY_NAME = 'six-cities-token',
+  USER_AVATAR_KEY_NAME = 'six-cities-user-avatar-url',
+  USER_EMAIL_KEY_NAME = 'six-cities-user-email',
+}

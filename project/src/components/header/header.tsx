@@ -3,12 +3,13 @@ import {AppRoute} from '../../consts';
 import HeaderNavNoAuth from '../header-nav-no-auth/header-nav-no-auth';
 import HeaderNavAuth from '../header-nav-auth/header-nav-auth';
 import { AuthorizationStatus } from '../../consts';
-
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import {useAppSelector} from '../../hooks/index';
+import { memo } from 'react';
 
 function Header(): JSX.Element {
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
 
   return (
     <header className="header">
@@ -19,11 +20,11 @@ function Header(): JSX.Element {
               <img className="header__logo" src="img/logo.svg" alt="6 cities logo" width="81" height="41" />
             </Link>
           </div>
-          {authorizationStatus === AuthorizationStatus.Auth ? <HeaderNavAuth></HeaderNavAuth> : <HeaderNavNoAuth></HeaderNavNoAuth>}
+          {authorizationStatus === AuthorizationStatus.Auth ? <HeaderNavAuth /> : <HeaderNavNoAuth />}
         </div>
       </div>
     </header>
   );
 }
 
-export default Header;
+export default memo(Header);

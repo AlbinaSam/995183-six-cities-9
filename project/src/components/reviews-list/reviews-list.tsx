@@ -1,4 +1,4 @@
-import { Review } from '../../types/reviews';
+import { Review } from '../../types/review';
 import ReviewItem from '../../components/review-item/review-item';
 
 type ReviewsListProps = {
@@ -9,7 +9,7 @@ function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
   return (
     <ul className="reviews__list">
       {reviews.map((review) => (
-        <ReviewItem key={review.id} review={review}></ReviewItem>
+        <ReviewItem key={review.id} review={review} />
       ))}
     </ul>
   );

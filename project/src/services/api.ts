@@ -1,5 +1,6 @@
 import axios, {AxiosInstance, AxiosRequestConfig} from 'axios';
-import { getToken } from './token';
+import { StorageKeyName } from '../consts';
+import { getItem } from './storage-service';
 
 export const BASE_URL = 'https://9.react.pages.academy/six-cities';
 
@@ -13,7 +14,7 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      const token = getToken();
+      const token = getItem(StorageKeyName.AUTH_TOKEN_KEY_NAME);
 
       if (token) {
         config.headers['x-token'] = token;

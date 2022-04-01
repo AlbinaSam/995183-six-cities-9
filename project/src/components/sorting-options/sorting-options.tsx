@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { SortingOptionsValues } from '../../consts';
 
 type SortingOptionsProps = {
@@ -21,9 +21,9 @@ function SortingOptions({ sortingOption, onOptionChange }: SortingOptionsProps):
           <use xlinkHref="#icon-arrow-select"></use>
         </svg>
       </span>
-      <ul className={`places__options places__options--custom ${optionsState ? 'places__options--opened' : ''}`}>
+      <ul className={`places__options places__options--custom ${optionsState && 'places__options--opened'}`}>
         {options.map((option) => (
-          <li key={option} className={`places__option ${sortingOption === option ? 'places__option--active' : ''}`} tabIndex={0} onClick={() => {
+          <li key={option} className={`places__option ${sortingOption === option && 'places__option--active'}`} tabIndex={0} onClick={() => {
             onOptionChange(option);
             setOptionsState(!optionsState);
           }}
@@ -35,4 +35,4 @@ function SortingOptions({ sortingOption, onOptionChange }: SortingOptionsProps):
   );
 }
 
-export default SortingOptions;
+export default memo(SortingOptions);

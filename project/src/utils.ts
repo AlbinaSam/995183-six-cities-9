@@ -33,3 +33,9 @@ export const sortOffers = (offers: Offer[], currentSortOption: string | undefine
       return offers;
   }
 };
+
+export const updateOffersArray = (offers: Offer[], update: Offer, index: number) =>  [
+  ...offers.slice(0, index),
+  update,
+  ...offers.slice(index + 1),
+];

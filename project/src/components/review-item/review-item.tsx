@@ -1,4 +1,4 @@
-import { Review } from '../../types/reviews';
+import { Review } from '../../types/review';
 import dayjs from 'dayjs';
 import { countRatingPercent } from '../../utils';
 

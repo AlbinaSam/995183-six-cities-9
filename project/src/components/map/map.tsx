@@ -1,6 +1,6 @@
 import {Icon, Marker} from 'leaflet';
 import {Offer} from '../../types/offer';
-import {useRef, useEffect} from 'react';
+import {useRef, useEffect, memo} from 'react';
 import useMap from '../../hooks/useMap/useMap';
 import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MapClasses} from '../../consts';
 
@@ -52,4 +52,4 @@ function Map({className, city, points, activeOffer, mapStyle}: MapProps): JSX.El
   );
 }
 
-export default Map;
+export default memo(Map) ;

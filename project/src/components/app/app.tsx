@@ -12,6 +12,10 @@ import {useEffect} from 'react';
 import { fetchOffersAction, checkAuthStatusAction } from '../../store/api-actions';
 import browserHistory from '../../browser-history';
 import HistoryRouter from '../history-router/history-router';
+import {ToastContainer} from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import { getLoadedDataStatus } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
 
 function App(): JSX.Element {
 
@@ -25,16 +29,19 @@ function App(): JSX.Element {
     dispatch(checkAuthStatusAction());
   }, [dispatch]);
 
-  const {authorizationStatus , isDataLoaded} = useAppSelector((state) => state);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+
+  const isDataLoaded = useAppSelector(getLoadedDataStatus);
 
   if ((authorizationStatus === AuthorizationStatus.Unknown) || !isDataLoaded) {
     return (
-      <LoadingScreen></LoadingScreen>
+      <LoadingScreen />
     );
   }
 
   return (
     <HistoryRouter history={browserHistory}>
+      <ToastContainer />
       <Routes>
         <Route path={AppRoute.Root}
           element={<MainScreen/>}

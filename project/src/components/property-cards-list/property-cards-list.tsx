@@ -1,6 +1,7 @@
 import PropertyCard from '../property-card/property-card';
 import {Offer} from '../../types/offer';
 import {sortOffers} from '../../utils';
+import { memo } from 'react';
 
 type PropertyCardsListProps = {
   className: {placeCardClass: string, imgWrapperClass: string};
@@ -20,4 +21,4 @@ function PropertyCardsList({className, offers, onActiveChoose, sortingOption }: 
   );
 }
 
-export default PropertyCardsList;
+export default memo(PropertyCardsList);
