@@ -1,17 +1,18 @@
 import Header from '../../components/header/header';
-import ReviewForm from '../../components/review-form/review-form';
-import ReviewsList from '../../components/reviews-list/reviews-list';
 import PropertyCardsList from '../../components/property-cards-list/property-cards-list';
 import Map from '../../components/map/map';
+import Reviews from '../../components/reviews/reviews';
+import NotFoundScreen from '../not-found-screen/not-found-screen';
 import { Offer } from '../../types/offer';
-import { MAX_PHOTOS_AMOUNT, propertyCardClasses, MapClasses, APIRoute, AuthorizationStatus } from '../../consts';
+import { MAX_PHOTOS_AMOUNT, propertyCardClasses, MapClasses, AppRoute, AuthorizationStatus } from '../../consts';
 import { countRatingPercent } from '../../utils';
-import {useParams} from 'react-router-dom';
-import {useEffect, useState} from 'react';
+import {useNavigate, useParams} from 'react-router-dom';
+import {useEffect} from 'react';
 import {useAppSelector, useAppDispatch } from '../../hooks/index';
-import {api} from '../../store/';
-import { errorHandler } from '../../services/error-handler';
-import { fetchReviewsAction } from '../../store/api-actions';
+import { changeFavoriteStatusAction, fetchCurrentOfferAction, fetchNearbyOffersAction } from '../../store/api-actions';
+import { getCurrentOffer, getNearbyOffers } from '../../store/app-data/selectors';
+import { getAuthorizationStatus } from '../../store/user-process/selectors';
+import {FavoriteStatusData} from '../../types/favorite-status-data';
 
 function getMaxPhotosAmount(offer: Offer): number {
   return Math.min(offer.images.length, MAX_PHOTOS_AMOUNT);
@@ -23,51 +24,39 @@ function PropertyScreen(): JSX.Element | null {
 
   const dispatch = useAppDispatch();
 
-  const [offer, setOffer] = useState<Offer | null>(null);
+  const navigate = useNavigate();
 
-  const [nearbyOffers, setNearbyOffers] = useState<Offer[]>([]);
+  const offer = useAppSelector(getCurrentOffer);
 
-  const {authorizationStatus, reviews} = useAppSelector((state) => state);
+  const nearbyOffers = useAppSelector(getNearbyOffers);
 
-  useEffect(() => {
-    const fetchOffer = async() => {
-      try {
-        const {data} = await api.get<Offer>(`${APIRoute.Offers}/${params.id}`);
-        setOffer(data);
-      } catch (error) {
-        errorHandler(error);
-        //направить на NotFoundScreen
-      }
-    };
-
-    fetchOffer();
-  }, [params.id]);
-
+  const authorizationstatus = useAppSelector(getAuthorizationStatus);
 
   useEffect(() => {
-    dispatch(fetchReviewsAction(params.id));
+    dispatch(fetchCurrentOfferAction(params.id));
   }, [dispatch, params.id]);
 
-
   useEffect(() => {
-    const fetchNearbyOffers = async () => {
-      try {
-        const {data} = await api.get<Offer[]>(`${APIRoute.Offers}/${params.id}/nearby`);
-        setNearbyOffers(data);
-      } catch (error) {
-        errorHandler(error);
-      }
-    };
+    dispatch(fetchNearbyOffersAction(params.id));
+  }, [dispatch, params.id]);
 
-    fetchNearbyOffers();
-  }, [params.id]);
+  const handleClick = ({offerId, offerStatus}: FavoriteStatusData) => {
+    if (authorizationstatus !== AuthorizationStatus.Auth) {
+      navigate(AppRoute.Login);
+      return;
+    }
 
+    dispatch(changeFavoriteStatusAction({
+      offerId,
+      offerStatus,
+    }));
+  };
 
   if (!offer) {
-    return null;
+    return <NotFoundScreen />;
   }
 
-  const {images, type, isPremium, title, rating, bedrooms, maxAdults, price, goods, host, description} = offer;
+  const {id, images, type, isPremium, title, rating, bedrooms, maxAdults, price, goods, host, description, isFavorite} = offer;
 
   const mapStyle = {width: '1144px', margin: '0 auto 50px'};
 
@@ -90,7 +79,11 @@ function PropertyScreen(): JSX.Element | null {
               {isPremium && <div className="property__mark"><span>Premium</span></div>}
               <div className="property__name-wrapper">
                 <h1 className="property__name">{title}</h1>
-                <button className="property__bookmark-button button" type="button">
+                <button onClick={(evt) => {
+                  evt.preventDefault();
+                  handleClick({offerId: id, offerStatus: Number(!isFavorite)});
+                }} className={`property__bookmark-button ${isFavorite && 'property__bookmark-button--active'} button`} type="button"
+                >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>
                   </svg>
@@ -128,7 +121,7 @@ function PropertyScreen(): JSX.Element | null {
               <div className="property__host">
                 <h2 className="property__host-title">Meet the host</h2>
                 <div className="property__host-user user">
-                  <div className={`property__avatar-wrapper ${host.isPro ? 'property__avatar-wrapper--pro' : ''} user__avatar-wrapper`}>
+                  <div className={`property__avatar-wrapper ${host.isPro && 'property__avatar-wrapper--pro'} user__avatar-wrapper`}>
                     <img className="property__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
                   </div>
                   <span className="property__user-name">
@@ -142,14 +135,7 @@ function PropertyScreen(): JSX.Element | null {
                   </p>
                 </div>
               </div>
-              <section className="property__reviews reviews">
-                <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{reviews.length}</span></h2>
-                {reviews.length > 0 ?
-                  <ReviewsList reviews={reviews}></ReviewsList>
-                  : ''}
-                {authorizationStatus === AuthorizationStatus.Auth ?
-                  <ReviewForm /> : ''}
-              </section>
+              <Reviews />
             </div>
           </div>
           <Map className={MapClasses.PropertyPage} city={offer.city.name} points={nearbyOffers} activeOffer={offer} mapStyle={mapStyle}></Map>

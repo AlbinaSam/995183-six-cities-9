@@ -8,7 +8,7 @@ import {createCitiesDictionary} from '../../utils';
 function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: string): Map | null {
   const [map, setMap] = useState<Map | null>(null);
 
-  const offers = useAppSelector((state) => state.offers);
+  const offers = useAppSelector(({DATA}) => DATA.offers);
 
   const citiesDictionary = createCitiesDictionary(offers);
 

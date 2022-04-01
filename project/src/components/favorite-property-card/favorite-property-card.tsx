@@ -1,13 +1,27 @@
-import {Link} from 'react-router-dom';
-import {Offer} from '../../types/offer';
-import {countRatingPercent} from '../../utils';
+import { Link } from 'react-router-dom';
+import { Offer } from '../../types/offer';
+import { countRatingPercent } from '../../utils';
+import {useAppDispatch} from '../../hooks/index';
+import {FavoriteStatusData} from '../../types/favorite-status-data';
+import {changeFavoriteStatusAction} from '../../store/api-actions';
 
 type FavoritePropertyCardProps = {
   offer: Offer;
   id: string;
 }
 
-function FavoritePropertyCard({id, offer}: FavoritePropertyCardProps): JSX.Element {
+function FavoritePropertyCard({ id, offer }: FavoritePropertyCardProps): JSX.Element {
+
+  const dispatch = useAppDispatch();
+
+  const handleClick = ({ offerId, offerStatus }: FavoriteStatusData) => {
+
+    dispatch(changeFavoriteStatusAction({
+      offerId,
+      offerStatus,
+    }));
+  };
+
   return (
     <article id={id} className="favorites__card place-card">
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
@@ -22,7 +36,11 @@ function FavoritePropertyCard({id, offer}: FavoritePropertyCardProps): JSX.Eleme
             <b className="place-card__price-value">&euro;{offer.price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
+          <button onClick={(evt) => {
+            evt.preventDefault();
+            handleClick({ offerId: offer.id, offerStatus: Number(!offer.isFavorite) });
+          }} className="place-card__bookmark-button place-card__bookmark-button--active button" type="button"
+          >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>
             </svg>
@@ -31,7 +49,7 @@ function FavoritePropertyCard({id, offer}: FavoritePropertyCardProps): JSX.Eleme
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: `${countRatingPercent(offer.rating)}%`}}></span>
+            <span style={{ width: `${countRatingPercent(offer.rating)}%` }}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

@@ -1,14 +1,13 @@
 import {Link} from 'react-router-dom';
-import {AppRoute} from '../../consts';
-import {getUserEmail} from '../../services/user-email';
-import {getUserAvatarUrl} from '../../services/user-avatar-url';
+import {AppRoute, StorageKeyName} from '../../consts';
 import {logoutAction} from '../../store/api-actions';
 import {useAppDispatch} from '../../hooks/index';
+import { getItem } from '../../services/storage-service';
 
 function HeaderNavAuth(): JSX.Element {
 
-  const userEmail = getUserEmail();
-  const userAvatarUrl = getUserAvatarUrl();
+  const userEmail = getItem(StorageKeyName.USER_EMAIL_KEY_NAME);
+  const userAvatarUrl = getItem(StorageKeyName.USER_AVATAR_KEY_NAME);
 
   const dispatch = useAppDispatch();
 
