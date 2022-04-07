@@ -6,8 +6,8 @@ import { getItem } from '../../services/storage-service';
 
 function HeaderNavAuth(): JSX.Element {
 
-  const userEmail = getItem(StorageKeyName.USER_EMAIL_KEY_NAME);
-  const userAvatarUrl = getItem(StorageKeyName.USER_AVATAR_KEY_NAME);
+  const userEmail = getItem(StorageKeyName.UserEmail);
+  const userAvatarUrl = getItem(StorageKeyName.UserAvatar);
 
   const dispatch = useAppDispatch();
 
@@ -15,7 +15,7 @@ function HeaderNavAuth(): JSX.Element {
     <nav className="header__nav">
       <ul className="header__nav-list">
         <li className="header__nav-item user">
-          <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites}>
+          <Link className="header__nav-link header__nav-link--profile" to={AppRoute.Favorites} data-testid="profile-link">
             <div className="header__avatar-wrapper user__avatar-wrapper" style={{backgroundImage:`url(${userAvatarUrl})`}}>
             </div>
             <span className="header__user-name user__name">{userEmail}</span>

@@ -11,7 +11,7 @@ function LocationsList(): JSX.Element {
   const dispatch = useAppDispatch();
 
   return (
-    <ul className="locations__list tabs__list">
+    <ul className="locations__list tabs__list" data-testid="tabs-list">
       {CITIES.map((city) => (
         <li key={city} className="locations__item">
           <a onClick={(evt) => {

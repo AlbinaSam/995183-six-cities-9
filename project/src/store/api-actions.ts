@@ -80,10 +80,10 @@ export const loginAction = createAsyncThunk<void, AuthData, {
     const {api} = extra;
     try {
       const {data} = await api.post<UserData>(APIRoute.Login, {email, password});
-      setItem(StorageKeyName.AUTH_TOKEN_KEY_NAME, data.token);
+      setItem(StorageKeyName.AuthToken, data.token);
       dispatch(requireAuthorization(AuthorizationStatus.Auth));
-      setItem(StorageKeyName.USER_EMAIL_KEY_NAME, data.email);
-      setItem(StorageKeyName.USER_AVATAR_KEY_NAME, data.avatarUrl);
+      setItem(StorageKeyName.UserEmail, data.email);
+      setItem(StorageKeyName.UserAvatar, data.avatarUrl);
       dispatch(redirectToRoute(AppRoute.Root));
     } catch (error) {
       errorHandler(error);
@@ -103,9 +103,9 @@ export const logoutAction = createAsyncThunk<void, undefined, {
     const {api} = extra;
     try {
       await api.delete(APIRoute.Logout);
-      removeItem(StorageKeyName.AUTH_TOKEN_KEY_NAME);
-      removeItem(StorageKeyName.USER_EMAIL_KEY_NAME);
-      removeItem(StorageKeyName.USER_AVATAR_KEY_NAME);
+      removeItem(StorageKeyName.AuthToken);
+      removeItem(StorageKeyName.UserEmail);
+      removeItem(StorageKeyName.UserAvatar);
       dispatch(requireAuthorization(AuthorizationStatus.NoAuth));
     } catch (error) {
       errorHandler(error);

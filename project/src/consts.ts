@@ -24,9 +24,13 @@ export const MAX_PERCENT_RATING = 100;
 
 export const MAX_PHOTOS_AMOUNT = 6;
 
+export const MAX_REVIEWS_AMOUNT = 10;
+
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
 export const MIN_CHARACTERS_NUMBER = 50;
+
+export const MAX_CHARACTERS_NUMBER = 300;
 
 export const REVIEW_TITLES = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
 
@@ -58,10 +62,10 @@ export enum APIRoute {
   Reviews = '/comments',
 }
 
-export enum HTTP_CODE {
-  BAD_REQUEST = 400,
-  UNAUTHORIZED = 401,
-  NOT_FOUND = 404,
+export enum HttpCode {
+  BadRequest = 400,
+  Unauthorized = 401,
+  NotFound = 404,
 }
 
 export enum NameSpace {
@@ -71,7 +75,7 @@ export enum NameSpace {
 }
 
 export enum StorageKeyName {
-  AUTH_TOKEN_KEY_NAME = 'six-cities-token',
-  USER_AVATAR_KEY_NAME = 'six-cities-user-avatar-url',
-  USER_EMAIL_KEY_NAME = 'six-cities-user-email',
+  AuthToken = 'six-cities-token',
+  UserAvatar = 'six-cities-user-avatar-url',
+  UserEmail = 'six-cities-user-email',
 }

@@ -23,10 +23,10 @@ function FavoritePropertyCard({ id, offer }: FavoritePropertyCardProps): JSX.Ele
   };
 
   return (
-    <article id={id} className="favorites__card place-card">
+    <article id={id} className="favorites__card place-card" data-testid="favorites-card">
       {offer.isPremium && <div className="place-card__mark"><span>Premium</span></div>}
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <Link to={`/offer/${id}`}>
+        <Link to={`/offer/${id}`} data-testid="img-link">
           <img className="place-card__image" src={offer.previewImage} width="150" height="110" alt="Place" />
         </Link>
       </div>
@@ -54,7 +54,7 @@ function FavoritePropertyCard({ id, offer }: FavoritePropertyCardProps): JSX.Ele
           </div>
         </div>
         <h2 className="place-card__name">
-          <Link to={`/offer/${id}`}>{offer.title}</Link>
+          <Link to={`/offer/${id}`} data-testid="title-link">{offer.title}</Link>
         </h2>
         <p className="place-card__type">{offer.type[0].toUpperCase() + offer.type.slice(1)}</p>
       </div>

@@ -1,6 +1,6 @@
 import React, { useState, ChangeEvent, FormEvent} from 'react';
 import { useParams } from 'react-router-dom';
-import { MIN_CHARACTERS_NUMBER, REVIEW_TITLES } from '../../consts';
+import { MIN_CHARACTERS_NUMBER, MAX_CHARACTERS_NUMBER, REVIEW_TITLES } from '../../consts';
 import {useAppDispatch} from '../../hooks/index';
 import { addReviewAction } from '../../store/api-actions';
 
@@ -42,16 +42,16 @@ function ReviewForm(): JSX.Element {
           </React.Fragment>)).reverse()}
 
       </div>
-      <textarea className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" value={commentText} onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
+      <textarea data-testid="review" className="reviews__textarea form__textarea" id="review" name="review" placeholder="Tell how was your stay, what you like and what can be improved" maxLength={MAX_CHARACTERS_NUMBER} value={commentText} onChange={({ target }: ChangeEvent<HTMLTextAreaElement>) => {
         setCommentText(target.value);
       }}
       >
       </textarea>
       <div className="reviews__button-wrapper">
         <p className="reviews__help">
-          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">50 characters</b>.
+          To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{MIN_CHARACTERS_NUMBER} characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={commentText.length < MIN_CHARACTERS_NUMBER}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={commentText.length < MIN_CHARACTERS_NUMBER || ratingNumber === 0}>Submit</button>
       </div>
     </form>
   );
