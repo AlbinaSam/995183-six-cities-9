@@ -14,7 +14,7 @@ export const createAPI = (): AxiosInstance => {
 
   api.interceptors.request.use(
     (config: AxiosRequestConfig) => {
-      const token = getItem(StorageKeyName.AUTH_TOKEN_KEY_NAME);
+      const token = getItem(StorageKeyName.AuthToken);
 
       if (token) {
         config.headers['x-token'] = token;

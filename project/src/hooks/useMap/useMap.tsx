@@ -2,13 +2,12 @@ import leaflet from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import {MutableRefObject, useEffect, useState} from 'react';
 import {Map, TileLayer} from 'leaflet';
-import {useAppSelector} from '../../hooks/index';
+import { Offer } from '../../types/offer';
 import {createCitiesDictionary} from '../../utils';
 
-function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: string): Map | null {
-  const [map, setMap] = useState<Map | null>(null);
 
-  const offers = useAppSelector(({DATA}) => DATA.offers);
+function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: string, offers: Offer[]): Map | null {
+  const [map, setMap] = useState<Map | null>(null);
 
   const citiesDictionary = createCitiesDictionary(offers);
 

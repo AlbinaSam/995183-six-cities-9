@@ -5,6 +5,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/index';
 import {fetchFavoriteOffersAction} from '../../store/api-actions';
 import {useEffect} from 'react';
 import { getFavoriteOffers } from '../../store/app-data/selectors';
+import { CITIES } from '../../consts';
 
 function FavoritesScreen(): JSX.Element {
 
@@ -24,12 +25,12 @@ function FavoritesScreen(): JSX.Element {
           <div className="page__favorites-container container">
             <section className="favorites">
               <h1 className="favorites__title">Saved listing</h1>
-              <FavoritesList favoriteOffers={favoriteOffers}></FavoritesList>
+              <FavoritesList favoriteOffers={favoriteOffers} cities={CITIES}></FavoritesList>
             </section>
           </div>
         </main> : <FavoritesEmpty />}
       <footer className={`footer ${favoriteOffers.length > 0 && 'container'}`}>
-        <a className="footer__logo-link" href="./">
+        <a className="footer__logo-link" href="./" data-testid="footer-logo-link">
           <img className="footer__logo" src="img/logo.svg" alt="6 cities logo" width="64" height="33" />
         </a>
       </footer>

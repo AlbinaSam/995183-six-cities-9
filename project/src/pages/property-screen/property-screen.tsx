@@ -3,7 +3,6 @@ import PropertyCardsList from '../../components/property-cards-list/property-car
 import Map from '../../components/map/map';
 import Reviews from '../../components/reviews/reviews';
 import NotFoundScreen from '../not-found-screen/not-found-screen';
-import { Offer } from '../../types/offer';
 import { MAX_PHOTOS_AMOUNT, propertyCardClasses, MapClasses, AppRoute, AuthorizationStatus } from '../../consts';
 import { countRatingPercent } from '../../utils';
 import {useNavigate, useParams} from 'react-router-dom';
@@ -13,10 +12,7 @@ import { changeFavoriteStatusAction, fetchCurrentOfferAction, fetchNearbyOffersA
 import { getCurrentOffer, getNearbyOffers } from '../../store/app-data/selectors';
 import { getAuthorizationStatus } from '../../store/user-process/selectors';
 import {FavoriteStatusData} from '../../types/favorite-status-data';
-
-function getMaxPhotosAmount(offer: Offer): number {
-  return Math.min(offer.images.length, MAX_PHOTOS_AMOUNT);
-}
+import { getMaxAmount } from '../../utils';
 
 function PropertyScreen(): JSX.Element | null {
 
@@ -61,13 +57,13 @@ function PropertyScreen(): JSX.Element | null {
   const mapStyle = {width: '1144px', margin: '0 auto 50px'};
 
   return (
-    <div className="page">
+    <div className="page" data-testid="property-page">
       <Header />
       <main className="page__main page__main--property">
         <section className="property">
           <div className="property__gallery-container container">
             <div className="property__gallery">
-              {images.slice(0, getMaxPhotosAmount(offer)).map((image) => (
+              {images.slice(0, getMaxAmount(offer.images.length, MAX_PHOTOS_AMOUNT)).map((image) => (
                 <div key={image} className="property__image-wrapper">
                   <img className="property__image" src={image} alt={type[0].toUpperCase() + type.slice(1)} />
                 </div>
