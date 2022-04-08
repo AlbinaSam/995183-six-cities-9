@@ -48,7 +48,7 @@ function PropertyCard({className, onActiveChoose, id, offer}: PropertyCardProps)
           <button onClick={(evt) => {
             evt.preventDefault();
             handleClick({offerId: offer.id, offerStatus: Number(!offer.isFavorite)});
-          }} className={`place-card__bookmark-button ${offer.isFavorite && 'place-card__bookmark-button--active'}  button`} type="button"
+          }} className={`place-card__bookmark-button ${(offer.isFavorite && authorizationstatus === AuthorizationStatus.Auth) &&'place-card__bookmark-button--active'}  button`} type="button"
           >
             <svg className="place-card__bookmark-icon" width="18" height="19">
               <use xlinkHref="#icon-bookmark"></use>

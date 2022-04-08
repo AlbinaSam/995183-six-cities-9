@@ -1,6 +1,6 @@
 import { Review } from '../../types/review';
 import ReviewItem from '../../components/review-item/review-item';
-import { MAX_REVIEWS_AMOUNT } from '../../consts';
+import { ReviewNumber } from '../../consts';
 import { getMaxAmount } from '../../utils';
 
 type ReviewsListProps = {
@@ -10,8 +10,9 @@ type ReviewsListProps = {
 function ReviewsList({reviews}: ReviewsListProps): JSX.Element {
   return (
     <ul className="reviews__list" data-testid="reviews-list">
-      {reviews.slice(0, getMaxAmount(reviews.length, MAX_REVIEWS_AMOUNT))
+      {[...reviews]
         .sort((reviewA: Review, reviewB: Review) => reviewB.date.localeCompare(reviewA.date))
+        .slice(0, getMaxAmount(reviews.length, ReviewNumber.MaxAmount))
         .map((review) => (
           <ReviewItem key={review.id} review={review} />
         ))}

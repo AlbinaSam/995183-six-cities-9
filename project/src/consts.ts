@@ -24,19 +24,20 @@ export const MAX_PERCENT_RATING = 100;
 
 export const MAX_PHOTOS_AMOUNT = 6;
 
-export const MAX_REVIEWS_AMOUNT = 10;
-
 export const CITIES = ['Paris', 'Cologne', 'Brussels', 'Amsterdam', 'Hamburg', 'Dusseldorf'];
 
-export const MIN_CHARACTERS_NUMBER = 50;
-
-export const MAX_CHARACTERS_NUMBER = 300;
+export enum ReviewNumber {
+  MaxAmount = 10,
+  MinCharactersNumber = 50,
+  MaxCharactersNumber = 300,
+}
 
 export const REVIEW_TITLES = ['terribly', 'badly', 'not bad', 'good', 'perfect'];
 
-export const URL_MARKER_DEFAULT = 'img/pin.svg';
-
-export const URL_MARKER_CURRENT = 'img/pin-active.svg';
+export enum MarkerUrl {
+  Default = 'img/pin.svg',
+  Current = 'img/pin-active.svg',
+}
 
 export enum MapClasses {
   MainPage = 'cities__map',

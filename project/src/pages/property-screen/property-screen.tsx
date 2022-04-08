@@ -78,7 +78,7 @@ function PropertyScreen(): JSX.Element | null {
                 <button onClick={(evt) => {
                   evt.preventDefault();
                   handleClick({offerId: id, offerStatus: Number(!isFavorite)});
-                }} className={`property__bookmark-button ${isFavorite && 'property__bookmark-button--active'} button`} type="button"
+                }} className={`property__bookmark-button ${(isFavorite && authorizationstatus === AuthorizationStatus.Auth) && 'property__bookmark-button--active'} button`} type="button"
                 >
                   <svg className="property__bookmark-icon" width="31" height="33">
                     <use xlinkHref="#icon-bookmark"></use>

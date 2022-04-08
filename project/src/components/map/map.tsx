@@ -4,7 +4,7 @@ import {useRef, useEffect, memo} from 'react';
 import useMap from '../../hooks/useMap/useMap';
 import {useAppSelector} from '../../hooks/index';
 import { getOffers } from '../../store/app-data/selectors';
-import {URL_MARKER_DEFAULT, URL_MARKER_CURRENT, MapClasses} from '../../consts';
+import {MarkerUrl, MapClasses} from '../../consts';
 
 type MapProps = {
   className: MapClasses;
@@ -15,13 +15,13 @@ type MapProps = {
 }
 
 const defaultCustomIcon = new Icon({
-  iconUrl: URL_MARKER_DEFAULT,
+  iconUrl: MarkerUrl.Default,
   iconSize: [27, 39],
   iconAnchor: [13.5, 39],
 });
 
 const currentCustomIcon = new Icon({
-  iconUrl: URL_MARKER_CURRENT,
+  iconUrl: MarkerUrl.Current,
   iconSize: [27, 39],
   iconAnchor: [13.5, 39],
 });
